@@ -20,7 +20,7 @@ const settingUpdaters = { setActivePanel }
 const getSettings = async (): Promise<AppSettings> => {
   const settings = await browser.storage.sync.get()
 
-  return { ...settings, ...defaultSettings, ...settingUpdaters }
+  return { ...defaultSettings, ...settings, ...settingUpdaters }
 }
 
 type PanelStateTuple = [Panel, (activePanel: Panel) => void]
