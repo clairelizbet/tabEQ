@@ -2,5 +2,24 @@
   "name": "TabEQ",
   "description": "Volume control, panning and equalization extension",
   "version": "1.0",
-  "manifest_version": 3
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background/index.js"
+  },
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_icon": {
+      "16": "images/tabEQ_16.png",
+      "32": "images/tabEQ_32.png",
+      "48": "images/tabEQ_48.png",
+      "128": "images/tabEQ_128.png"
+    }
+  },
+  "icons": {
+    "16": "images/tabEQ_16.png",
+    "32": "images/tabEQ_32.png",
+    "48": "images/tabEQ_48.png",
+    "128": "images/tabEQ_128.png"
+  }
 }

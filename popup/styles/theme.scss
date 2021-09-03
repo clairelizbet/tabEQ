@@ -1,0 +1,18 @@
+:root {
+  --dark-purple: #150022;
+  --medium-blue: #006d94;
+  --electric-blue: #00bcff;
+  --brilliant-white: #ffffff;
+
+  --border-color: var(--electric-blue);
+  --text-color-primary: var(--dark-purple);
+  --background-color: var(--brilliant-white);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --border-color: var(--electric-blue);
+    --text-color-primary: var(--electric-blue);
+    --background-color: var(--dark-purple);
+  }
+}

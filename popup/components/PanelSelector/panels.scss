@@ -1,0 +1,16 @@
+.panels {
+  display: flex;
+}
+
+.panel-button {
+  flex-grow: 1;
+  background-color: transparent;
+  color: inherit;
+  border-width: 1px;
+  border-color: var(--border-color);
+}
+
+.panel-button-active {
+  background-color: var(--medium-blue);
+  color: white;
+}

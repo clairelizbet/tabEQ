@@ -1,0 +1,51 @@
+{
+  "name": "tabeq",
+  "version": "1.0.0",
+  "description": "Volume control, panning and equalization extension",
+  "main": "dist/background.js",
+  "scripts": {
+    "build": "parcel build manifest.json background/index.ts popup/index.html --target browser --no-source-maps",
+    "watch": "parcel watch manifest.json background/index.ts popup/index.html --target browser",
+    "test": "echo \"Error: no tests available\" && exit 1"
+  },
+  "browserslist": [
+    "last 5 Chrome versions",
+    "last 5 Firefox versions"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clairelizbet/tabEQ.git"
+  },
+  "keywords": [
+    "chrome extension"
+  ],
+  "author": "claire <claire@clairecampbell.io> (https://clairecampbell.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/clairelizbet/tabEQ/issues"
+  },
+  "homepage": "https://github.com/clairelizbet/tabEQ#readme",
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  },
+  "staticFiles": {
+    "staticPath": [
+      "static",
+      "manifest.json"
+    ]
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/chrome": "^0.0.154",
+    "@types/webextension-polyfill": "^0.8.0",
+    "parcel-bundler": "^1.12.5",
+    "parcel-plugin-static-files-copy": "^2.6.0",
+    "preact": "^10.5.14",
+    "sass": "^1.39.0",
+    "typescript": "^4.4.2",
+    "webextension-polyfill": "^0.8.0"
+  }
+}
