@@ -8,9 +8,9 @@ const VolumePanel = () => {
   if (activePanel !== Panel.Volume) return null
 
   return (
-    <header>
+    <section className="panel">
       <span>hewwo, welcome to tabEQ!</span>
-    </header>
+    </section>
   )
 }
 

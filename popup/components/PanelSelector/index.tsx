@@ -22,7 +22,7 @@ const PanelSelector = () => {
   const { Volume, Panning, Equalization } = Panel
 
   return (
-    <section className="panels">
+    <section className="panel-selector">
       <PanelButton panel={Volume} label="Volume" />
       <PanelButton panel={Panning} label="Panning" />
       <PanelButton panel={Equalization} label="Equalizer" />

@@ -1,3 +1,5 @@
 .app-title {
+  margin-left: calc(var(--window-padding) * -1);
+  margin-right: calc(var(--window-padding) * -1);
   padding-bottom: 1rem;
 }

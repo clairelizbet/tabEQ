@@ -8,9 +8,9 @@ const PanningPanel = () => {
   if (activePanel !== Panel.Panning) return null
 
   return (
-    <header>
+    <section className="panel">
       <span>Panning Panel</span>
-    </header>
+    </section>
   )
 }
 

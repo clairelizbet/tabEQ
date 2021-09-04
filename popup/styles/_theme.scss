@@ -1,4 +1,6 @@
 :root {
+  --window-padding: 1rem;
+
   --dark-purple: #150022;
   --medium-blue: #006d94;
   --electric-blue: #00bcff;
@@ -15,4 +17,8 @@
     --text-color-primary: var(--electric-blue);
     --background-color: var(--dark-purple);
   }
+}
+
+body {
+  font-family: 'Audiowide';
 }

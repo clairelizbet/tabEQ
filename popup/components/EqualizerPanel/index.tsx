@@ -8,9 +8,9 @@ const EqualizerPanel = () => {
   if (activePanel !== Panel.Equalization) return null
 
   return (
-    <header>
+    <section className="panel">
       <span>Equalizer Panel</span>
-    </header>
+    </section>
   )
 }
 
