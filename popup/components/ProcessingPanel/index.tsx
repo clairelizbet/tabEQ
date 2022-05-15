@@ -12,7 +12,7 @@ const ProcessingPanel = (props: { activePanel: Panel }) => {
   )
   const [tabSettings, setTabSettings] = useState({} as SavedSiteSettings)
   const [connectionState, setConnectionState] = useState(
-    'connecting' as 'connecting' | 'connected' | 'failed'
+    'connecting' as 'connecting' | 'connected' | Error
   )
 
   if (!currentTab) {
@@ -27,8 +27,8 @@ const ProcessingPanel = (props: { activePanel: Panel }) => {
           setTabSettings(response)
           setConnectionState('connected')
         })
-        .catch(() => {
-          setConnectionState('failed')
+        .catch((err: Error) => {
+          setConnectionState(err)
         })
     })
   }
@@ -90,9 +90,28 @@ const ProcessingPanel = (props: { activePanel: Panel }) => {
     return <section className="panel">Connecting to page...</section>
   }
 
-  if (connectionState === 'failed') {
+  if (connectionState instanceof Error) {
+    const errorDescriptionsGenerators = [
+      (e: Error) =>
+        e.message.startsWith('Could not establish connection')
+          ? 'Could not connect to tab'
+          : null,
+    ]
+
+    const descriptionGen = errorDescriptionsGenerators.find((gen) =>
+      gen(connectionState)
+    )
+
+    const description = descriptionGen
+      ? descriptionGen(connectionState)
+      : connectionState.message
+
     return (
-      <section className="panel">&#x26A0; Unavailable on this page</section>
+      <section className="panel">
+        <p></p>&#x26A0; Unavailable
+        <hr />
+        <p>{description}</p>
+      </section>
     )
   }
 
