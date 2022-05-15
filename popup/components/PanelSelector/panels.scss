@@ -1,16 +1,91 @@
 .panel-selector {
+  margin: calc(-1 * var(--window-padding));
   display: flex;
 }
 
 .panel-button {
+  cursor: pointer;
   flex-grow: 1;
   background-color: transparent;
   color: inherit;
   border-width: 1px;
   border-color: var(--border-color);
+  font-family: inherit;
+  text-transform: uppercase;
 }
 
 .panel-button-active {
   background-color: var(--medium-blue);
-  color: white;
+  color: var(--brilliant-white);
+}
+
+.panel-button:first-child {
+  border-left: none;
+}
+
+.panel-button:last-child {
+  border-right: none;
+}
+
+.panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.control-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-color: var(--border-color);
+  text-transform: uppercase;
+}
+
+.control {
+  display: flex;
+  flex-grow: 1;
+  gap: 1rem;
+  align-items: center;
+
+  input,
+  label {
+    cursor: pointer;
+  }
+
+  input[type='range'] {
+    flex-grow: 1;
+    appearance: none;
+    background-color: var(--medium-blue);
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    width: 10px;
+    height: 20px;
+    cursor: ew-resize;
+    background-color: var(--brilliant-white);
+  }
+
+  input[type='checkbox'] {
+    appearance: none;
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid gray;
+    background-color: var(--medium-blue);
+    color: var(--brilliant-white);
+    padding-left: 2px;
+  }
+
+  input[type='checkbox']::before {
+    content: 'X';
+    position: absolute;
+    font-size: 0.75rem;
+    visibility: hidden;
+  }
+
+  input[type='checkbox']:checked::before {
+    /* Use `visibility` instead of `display` to avoid recalculating layout */
+    visibility: visible;
+  }
 }

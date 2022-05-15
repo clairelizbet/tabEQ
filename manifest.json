@@ -1,12 +1,25 @@
 {
   "name": "TabEQ",
-  "description": "Volume control, panning and equalization extension",
+  "description": "Audio controls for your tabs!",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "background/index.js"
   },
   "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["page.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "action": {
     "default_popup": "popup/index.html",
     "default_icon": {

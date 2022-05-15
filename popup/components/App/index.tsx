@@ -1,29 +1,17 @@
-import VolumePanel from '../VolumePanel'
-import PanningPanel from '../PanningPanel'
+import ProcessingPanel from '../ProcessingPanel'
 import EqualizerPanel from '../EqualizerPanel'
 import Header from '../Header'
-import { AppSettings, useActivePanel } from '../../../util/storage'
-import AppContext from '../../context'
 import './app.scss'
+import { useActivePanel } from '../../../util/storage'
 
-type AppProps = { settings: AppSettings }
-
-const App = ({ settings }: AppProps) => {
-  const [activePanel, setActivePanel] = useActivePanel(settings.activePanel)
-
-  const appContextValue = {
-    activePanel,
-    setActivePanel,
-  }
+const App = () => {
+  const [activePanel, setActivePanel] = useActivePanel()
 
   return (
     <div className="app">
-      <AppContext.Provider value={appContextValue}>
-        <Header />
-        <VolumePanel />
-        <PanningPanel />
-        <EqualizerPanel />
-      </AppContext.Provider>
+      <Header activePanel={activePanel} setActivePanel={setActivePanel} />
+      <ProcessingPanel activePanel={activePanel} />
+      <EqualizerPanel activePanel={activePanel} />
     </div>
   )
 }

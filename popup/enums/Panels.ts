@@ -1,6 +1,5 @@
 enum Panel {
-  Volume,
-  Panning,
+  Processing,
   Equalization,
 }
 

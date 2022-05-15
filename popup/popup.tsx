@@ -1,14 +1,15 @@
-import { getSettings } from '../util/storage'
+import { hydrateSettings } from '../util/storage'
 import { render } from 'preact'
 import App from './components/App'
 import runOnInteractive from '../util/runOnInteractive'
 
 const init = async () => {
-  const settings = await getSettings()
+  await hydrateSettings()
+
   const root = document.getElementById('root')
   if (!root) return
 
-  render(<App settings={settings} />, root)
+  render(<App />, root)
 }
 
 runOnInteractive(init)

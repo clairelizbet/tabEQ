@@ -1,0 +1,15 @@
+.reset-button {
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  color: var(--brilliant-white);
+}
+
+.reset-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
