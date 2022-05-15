@@ -1,4 +1,3 @@
-import { useActivePanel } from '../../../util/storage'
 import Panel from '../../enums/Panels'
 import './equalizer.scss'
 
@@ -7,7 +6,21 @@ const EqualizerPanel = (props: { activePanel: Panel }) => {
 
   return (
     <section className="panel">
-      <span>coming soon lol &#128156;</span>
+      <p>
+        <span>coming soon lol</span>
+      </p>
+      <p className="signature-para">
+        <span>
+          &#128156;
+          <a
+            href="https://twitter.com/clairelizbet"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            claire
+          </a>
+        </span>
+      </p>
     </section>
   )
 }

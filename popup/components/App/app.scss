@@ -10,9 +10,13 @@
 
   color: var(--text-color-primary);
   background-color: var(--background-color);
+
+  a {
+    color: inherit;
+  }
 }
 
 .panel {
   padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-bottom: 0.5rem;
 }

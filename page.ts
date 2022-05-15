@@ -3,6 +3,9 @@ import { connectAVSourceNode, updateSettings } from './audio'
 AudioContext.prototype._createMediaElementSource =
   AudioContext.prototype.createMediaElementSource
 
+// TODO: Instead of automatically connecting all nodes, wait for action invoke
+// Except if they already have the settings for this site stored, then auto connect
+
 AudioContext.prototype.createMediaElementSource = function (
   mediaElement: HTMLMediaElement
 ) {

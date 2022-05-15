@@ -9,34 +9,54 @@ let settings: Required<SavedSiteSettings> = {
   volume: 1,
 }
 
-const activeSourceNodes: MediaElementAudioSourceNode[] = []
+interface TabAudioSourceNode {
+  sourceNode: MediaElementAudioSourceNode
+  lastPreCompressionNode: AudioNode
+  compressorNode?: DynamicsCompressorNode // Always last if it exists
+  panNode: StereoPannerNode
+  gainNode: GainNode
+  nodeSettings: Required<SavedSiteSettings>
+}
 
-function connectSourceNode(source: MediaElementAudioSourceNode) {
-  let audioChainHead: AudioNode = source
-  source.disconnect()
+const activeSourceNodes: TabAudioSourceNode[] = []
 
-  const addNodeToChain = (node: AudioNode) => {
-    audioChainHead = audioChainHead.connect(node)
-  }
+function connectSourceNode(
+  sourceNode: MediaElementAudioSourceNode
+): TabAudioSourceNode {
+  const nodeSettings = { ...settings }
+  let audioChainHead: AudioNode = sourceNode
+  let compressorNode: DynamicsCompressorNode | undefined
+  let lastPreCompressionNode: AudioNode
 
-  const gainNode = source.context.createGain()
-  gainNode.gain.value = settings.volume
+  const addNodeToChain = (node: AudioNode) =>
+    (audioChainHead = audioChainHead.connect(node))
+
+  sourceNode.disconnect()
+
+  const gainNode = sourceNode.context.createGain()
+  gainNode.gain.value = nodeSettings.volume
   addNodeToChain(gainNode)
 
-  const panNode = source.context.createStereoPanner()
-  panNode.pan.value = settings.pan
-  addNodeToChain(panNode)
+  const panNode = sourceNode.context.createStereoPanner()
+  panNode.pan.value = nodeSettings.pan
+  lastPreCompressionNode = addNodeToChain(panNode)
 
-  if (settings.compressDynamicRange) {
-    const compressorNode = source.context.createDynamicsCompressor()
-    compressorNode.threshold.value = -30
-    compressorNode.ratio.value = settings.compressDynamicRange
+  if (nodeSettings.compressDynamicRange) {
+    compressorNode = sourceNode.context.createDynamicsCompressor()
+    compressorNode.ratio.value = nodeSettings.compressDynamicRange
     addNodeToChain(compressorNode)
   }
 
-  audioChainHead.connect(source.context.destination)
+  audioChainHead.connect(sourceNode.context.destination)
 
-  return source
+  return {
+    sourceNode,
+    lastPreCompressionNode,
+    compressorNode,
+    panNode,
+    gainNode,
+    nodeSettings,
+  }
 }
 
 function connectAVSourceNode(source: MediaElementAudioSourceNode) {
@@ -57,14 +77,48 @@ function connectAVMediaElements(mediaElements: HTMLMediaElement[]) {
 }
 
 function updateAudioNodes() {
-  const newSources: MediaElementAudioSourceNode[] = []
+  activeSourceNodes.forEach((source) => {
+    const {
+      sourceNode,
+      compressorNode,
+      lastPreCompressionNode,
+      gainNode,
+      panNode,
+      nodeSettings,
+    } = source
+    const newSettings = { ...settings }
 
-  while (activeSourceNodes.length > 0) {
-    const source = activeSourceNodes.pop()
-    if (source) newSources.push(connectSourceNode(source))
-  }
+    if (nodeSettings.volume !== newSettings.volume)
+      gainNode.gain.value = newSettings.volume
 
-  activeSourceNodes.push(...newSources)
+    if (nodeSettings.pan !== newSettings.pan)
+      panNode.pan.value = newSettings.pan
+
+    // If the new settings call for no compression we need to remove compressor
+    if (newSettings.compressDynamicRange === false && compressorNode) {
+      compressorNode.disconnect(sourceNode.context.destination)
+      lastPreCompressionNode.disconnect(compressorNode)
+
+      lastPreCompressionNode.connect(sourceNode.context.destination)
+    }
+
+    // If the new settings call for a compressor and we lack one, add it
+    if (newSettings.compressDynamicRange && !compressorNode) {
+      lastPreCompressionNode.disconnect(sourceNode.context.destination)
+
+      const compressor = sourceNode.context.createDynamicsCompressor()
+      compressor.ratio.value = newSettings.compressDynamicRange
+
+      lastPreCompressionNode.connect(compressor)
+      compressor.connect(sourceNode.context.destination)
+    }
+
+    // Update the node's settings
+    for (const settingKey in settings) {
+      const key = settingKey as keyof SavedSiteSettings
+      source.nodeSettings[key] = settings[key] as never
+    }
+  })
 }
 
 function updateSettings(
