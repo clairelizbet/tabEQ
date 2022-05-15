@@ -31,7 +31,9 @@ function connectSourceNode(
   const addNodeToChain = (node: AudioNode) =>
     (audioChainHead = audioChainHead.connect(node))
 
+  try {
   sourceNode.disconnect()
+  } catch (e) {}
 
   const gainNode = sourceNode.context.createGain()
   gainNode.gain.value = nodeSettings.volume
@@ -98,6 +100,7 @@ function updateAudioNodes() {
     if (newSettings.compressDynamicRange === false && compressorNode) {
       compressorNode.disconnect(sourceNode.context.destination)
       lastPreCompressionNode.disconnect(compressorNode)
+      source.compressorNode = undefined
 
       lastPreCompressionNode.connect(sourceNode.context.destination)
     }
@@ -111,6 +114,8 @@ function updateAudioNodes() {
 
       lastPreCompressionNode.connect(compressor)
       compressor.connect(sourceNode.context.destination)
+
+      source.compressorNode = compressor
     }
 
     // Update the node's settings

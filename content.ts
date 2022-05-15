@@ -2,6 +2,9 @@ import browser from 'webextension-polyfill'
 import { settings, updateSettings, connectAVMediaElements } from './audio'
 import runOnInteractive from './util/runOnInteractive'
 
+const connectedMediaElements: HTMLMediaElement[] = []
+let shouldCheckForNewElements: boolean = false
+
 const init = async () => {
   const pageScript = document.createElement('script')
   pageScript.src = browser.runtime.getURL('page.js')
@@ -25,21 +28,28 @@ const init = async () => {
     return mediaElements
   }
 
-  const onDOMChanged = function (mutations: MutationRecord[]) {
-    for (const mutation of mutations) {
-      const mediaNodes: HTMLMediaElement[] = []
-      mutation.addedNodes.forEach((node) => {
-        if (node instanceof HTMLMediaElement) mediaNodes.push(node)
-      })
+  function processDOMChanges() {
+    if (shouldCheckForNewElements) {
+      shouldCheckForNewElements = false
 
-      connectAVMediaElements(mediaNodes)
+      const newAVElements = findAVMediaElements().filter(
+        (mediaElement) => !connectedMediaElements.includes(mediaElement)
+      )
+
+      connectedMediaElements.push(...newAVElements)
+      connectAVMediaElements(newAVElements)
     }
+  }
+
+  const onDOMChanged = function () {
+    shouldCheckForNewElements = true
   }
 
   const observer = new MutationObserver(onDOMChanged)
   observer.observe(document.body, { childList: true, subtree: true })
 
   connectAVMediaElements(findAVMediaElements())
+  setInterval(processDOMChanges, 100)
 }
 
 runOnInteractive(init)
