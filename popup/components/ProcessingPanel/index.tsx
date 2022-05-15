@@ -108,7 +108,7 @@ const ProcessingPanel = (props: { activePanel: Panel }) => {
 
     return (
       <section className="panel">
-        <p></p>&#x26A0; Unavailable
+        <p>&#9888; Unavailable</p>
         <hr />
         <p>{description}</p>
       </section>
