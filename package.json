@@ -2,10 +2,9 @@
   "name": "tabeq",
   "version": "1.0.0",
   "description": "Audio controls for your tabs!",
-  "main": "dist/background.js",
   "scripts": {
-    "build": "parcel build manifest.json background/index.ts content.ts audio.ts page.ts popup/index.html --target browser --no-source-maps",
-    "watch": "parcel watch manifest.json background/index.ts content.ts audio.ts page.ts popup/index.html --no-hmr --target browser",
+    "build": "parcel build manifest.json content.ts audio.ts page.ts popup/index.html --target browser --no-source-maps",
+    "watch": "parcel watch manifest.json content.ts audio.ts page.ts popup/index.html --no-hmr --target browser",
     "test": "echo \"Error: no tests available\" && exit 1"
   },
   "browserslist": [

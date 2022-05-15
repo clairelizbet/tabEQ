@@ -3,9 +3,6 @@
   "description": "Audio controls for your tabs!",
   "version": "1.0",
   "manifest_version": 3,
-  "background": {
-    "service_worker": "background/index.js"
-  },
   "permissions": ["storage"],
   "content_scripts": [
     {
