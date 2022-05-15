@@ -12,7 +12,6 @@ let settings: Required<SavedSiteSettings> = {
 const activeSourceNodes: MediaElementAudioSourceNode[] = []
 
 function connectSourceNode(source: MediaElementAudioSourceNode) {
-  console.log('connecting node', settings.volume)
   let audioChainHead: AudioNode = source
   source.disconnect()
 
